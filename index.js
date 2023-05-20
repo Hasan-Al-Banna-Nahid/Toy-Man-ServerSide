@@ -45,6 +45,22 @@ async function run() {
       const result = await toyData.insertOne(data);
       res.send(result);
     });
+    app.patch("/toysData/:id", (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const data = req.body;
+
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          price: data.price,
+          quantity: data.quantity,
+          details: data.details,
+        },
+      };
+      const toyData = client.db("ToysData").collection("ToyData");
+      const result = toyData.updateOne(query, updateDoc);
+    });
     app.delete("/toysData/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
