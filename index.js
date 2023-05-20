@@ -28,8 +28,14 @@ async function run() {
     await client.connect();
     app.get("/toysData", async (req, res) => {
       const toysData = client.db("ToysData").collection("ToyData");
-
-      const result = await toysData.find().toArray();
+      const result = await toysData.find().limit(20).toArray();
+      res.send(result);
+    });
+    app.get("/toysData/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const toysData = client.db("ToysData").collection("ToyData");
+      const result = await toysData.find(query).toArray();
       res.send(result);
     });
     app.post("/toysData", async (req, res) => {
