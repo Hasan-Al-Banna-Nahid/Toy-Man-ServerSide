@@ -45,6 +45,13 @@ async function run() {
       const result = await toyData.insertOne(data);
       res.send(result);
     });
+    app.delete("/toysData/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const toysData = client.db("ToysData").collection("ToyData");
+      const result = await toysData.deleteOne(query);
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
