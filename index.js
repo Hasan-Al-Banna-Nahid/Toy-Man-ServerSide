@@ -38,6 +38,27 @@ async function run() {
       const result = await toysData.find(query).toArray();
       res.send(result);
     });
+    app.get("/toysData", async (req, res) => {
+      const { sort } = req.query;
+      const toysData = client.db("ToysData").collection("ToyData");
+
+      let sortOption = {};
+
+      if (sort === "asc") {
+        sortOption = { price: 1 };
+      } else if (sort === "desc") {
+        sortOption = { price: -1 };
+      }
+
+      try {
+        const result = await toysData.find().sort(sortOption).toArray();
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+
     app.post("/toysData", async (req, res) => {
       const data = req.body;
       console.log(data);
