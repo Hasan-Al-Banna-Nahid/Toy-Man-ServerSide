@@ -49,7 +49,7 @@ async function run() {
       const id = req.params.id;
       console.log(id);
       const data = req.body;
-
+      console.log(data);
       const query = { _id: new ObjectId(id) };
       const updateDoc = {
         $set: {
@@ -60,6 +60,7 @@ async function run() {
       };
       const toyData = client.db("ToysData").collection("ToyData");
       const result = toyData.updateOne(query, updateDoc);
+      res.send(result);
     });
     app.delete("/toysData/:id", async (req, res) => {
       const id = req.params.id;
